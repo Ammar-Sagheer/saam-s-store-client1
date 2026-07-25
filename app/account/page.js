@@ -15,6 +15,7 @@ export default async function AccountPage() {
   const { data: orders } = await supabase
     .from("orders")
     .select("*")
+    .eq("tenant_id", process.env.TENANT_ID)
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(3);

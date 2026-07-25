@@ -2,12 +2,15 @@ import { supabase } from "@/app/_lib/supabase";
 import { shapeProductImages } from "@/app/_lib/helpers";
 import { createSupabaseServer } from "@/app/_lib/supabase-server";
 
+const TENANT_ID = process.env.TENANT_ID;
+
 // ==================== CATEGORIES ====================
 
 export async function getCategories() {
   const { data, error } = await supabase
     .from("categories")
     .select("*")
+    .eq("tenant_id", TENANT_ID)
     .order("name");
 
   if (error) throw new Error(error.message);
@@ -18,6 +21,7 @@ export async function getCategoriesWithCount() {
   const { data, error } = await supabase
     .from("categories")
     .select("*, products(count)")
+    .eq("tenant_id", TENANT_ID)
     .order("name");
 
   if (error) throw new Error(error.message);
@@ -25,7 +29,9 @@ export async function getCategoriesWithCount() {
 }
 
 export async function getPriceRange() {
-  const { data, error } = await supabase.rpc("get_price_range");
+  const { data, error } = await supabase.rpc("get_price_range", {
+    p_tenant_id: TENANT_ID,
+  });
 
   if (error) throw new Error(error.message);
 
@@ -49,7 +55,8 @@ export async function getProducts({
     .from("products")
     .select(
       "*, categories!inner(name, slug), product_images(image_url, display_order)",
-    );
+    )
+    .eq("tenant_id", TENANT_ID);
 
   if (search) {
     query = query.ilike("name", `%${search}%`);
@@ -87,6 +94,7 @@ export async function getFeaturedProducts() {
     .select(
       "*, categories(name, slug), product_images(image_url, display_order)",
     )
+    .eq("tenant_id", TENANT_ID)
     .eq("is_featured", true)
     .order("created_at", { ascending: false });
 
@@ -101,6 +109,7 @@ export async function getProductBySlug(slug) {
     .select(
       "*, categories(name, slug), product_images(image_url, display_order)",
     )
+    .eq("tenant_id", TENANT_ID)
     .eq("slug", slug)
     .single();
 
@@ -115,6 +124,7 @@ export async function getRelatedProducts(categoryId, currentProductId) {
     .select(
       "*, categories(name, slug), product_images(image_url, display_order)",
     )
+    .eq("tenant_id", TENANT_ID)
     .eq("category_id", categoryId)
     .neq("id", currentProductId)
     .limit(4);
@@ -130,6 +140,7 @@ export async function getOrder(orderId) {
   const { data, error } = await supabase
     .from("orders")
     .select("*")
+    .eq("tenant_id", TENANT_ID)
     .eq("id", orderId)
     .single();
 
@@ -145,6 +156,7 @@ export async function getAllOrders(page = 1, pageSize = 5) {
   const { data, error, count } = await supabaseServer
     .from("orders")
     .select("*", { count: "exact" })
+    .eq("tenant_id", TENANT_ID)
     .order("created_at", { ascending: false })
     .range(from, to);
 
@@ -163,6 +175,7 @@ export async function getOrderById(id) {
   const { data, error } = await supabaseServer
     .from("orders")
     .select("*")
+    .eq("tenant_id", TENANT_ID)
     .eq("id", id)
     .single();
 
@@ -174,6 +187,7 @@ export async function getOrderByIdAndEmail(orderId, email) {
   const { data, error } = await supabase.rpc("get_order_by_id_and_email", {
     order_id: orderId,
     order_email: email,
+    p_tenant_id: TENANT_ID,
   });
 
   if (error) throw new Error(error.message);
@@ -185,12 +199,19 @@ export async function getOrderByIdAndEmail(orderId, email) {
 export async function getAdminStats() {
   const supabase = await createSupabaseServer();
   const [products, orders, messages] = await Promise.all([
-    supabase.from("products").select("*", { count: "exact", head: true }),
+    supabase
+      .from("products")
+      .select("*", { count: "exact", head: true })
+      .eq("tenant_id", TENANT_ID),
     supabase
       .from("orders")
       .select("*")
+      .eq("tenant_id", TENANT_ID)
       .order("created_at", { ascending: false }),
-    supabase.from("contacts").select("*", { count: "exact", head: true }),
+    supabase
+      .from("contacts")
+      .select("*", { count: "exact", head: true })
+      .eq("tenant_id", TENANT_ID),
   ]);
 
   const totalRevenue =
@@ -215,6 +236,7 @@ export async function getAllProductsAdmin(page = 1, pageSize = 15) {
       "*, categories(name, slug), product_images(image_url, display_order)",
       { count: "exact" },
     )
+    .eq("tenant_id", TENANT_ID)
     .order("created_at", { ascending: false })
     .range(from, to);
 
@@ -233,6 +255,7 @@ export async function getProductById(id) {
     .select(
       "*, categories(name, slug), product_images(image_url, display_order)",
     )
+    .eq("tenant_id", TENANT_ID)
     .eq("id", id)
     .single();
 
@@ -245,6 +268,7 @@ export async function getCategoryById(id) {
   const { data, error } = await supabase
     .from("categories")
     .select("*")
+    .eq("tenant_id", TENANT_ID)
     .eq("id", id)
     .single();
 
@@ -262,6 +286,7 @@ export async function getAllMessages(page = 1, pageSize = 3) {
   const { data, error, count } = await supabaseServer
     .from("contacts")
     .select("*", { count: "exact" })
+    .eq("tenant_id", TENANT_ID)
     .order("created_at", { ascending: false })
     .range(from, to);
 

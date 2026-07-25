@@ -43,6 +43,7 @@ export default async function OrdersPage({ searchParams }) {
   const { data: orders, count } = await supabase
     .from("orders")
     .select("*", { count: "exact" })
+    .eq("tenant_id", process.env.TENANT_ID)
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .range(from, to);

@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { createSupabaseServer } from "@/app/_lib/supabase-server";
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const TENANT_ID = process.env.TENANT_ID;
 
 async function requireAdmin(supabaseServer) {
   const { data, error } = await supabaseServer.auth.getClaims();
@@ -37,6 +38,7 @@ export async function placeOrder(formData) {
     total: Number(formData.get("total")),
     status: "pending",
     user_id: user?.id || null,
+    tenant_id: TENANT_ID,
   };
 
   // Basic validation
@@ -71,6 +73,7 @@ export async function submitContactForm(formData) {
     email: formData.get("email"),
     subject: formData.get("subject"),
     message: formData.get("message"),
+    tenant_id: TENANT_ID,
   };
 
   if (!contactData.first_name || !contactData.email || !contactData.message) {
@@ -91,6 +94,7 @@ export async function deleteProductAction(productId) {
   const { error } = await supabase
     .from("products")
     .delete()
+    .eq("tenant_id", TENANT_ID)
     .eq("id", productId);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/products");
@@ -122,6 +126,7 @@ export async function createProductAction(formData, images) {
     stock: Number(formData.stock),
     category_id: Number(formData.category_id),
     is_featured: formData.is_featured,
+    tenant_id: TENANT_ID,
   };
 
   const { data: product, error } = await supabase
@@ -137,6 +142,7 @@ export async function createProductAction(formData, images) {
       product_id: product.id,
       image_url: url,
       display_order: index,
+      tenant_id: TENANT_ID,
     }));
 
     const { error: imgError } = await supabase
@@ -180,16 +186,22 @@ export async function updateProductAction(productId, formData, images) {
   const { error } = await supabase
     .from("products")
     .update(productData)
+    .eq("tenant_id", TENANT_ID)
     .eq("id", productId);
   if (error) throw new Error(error.message);
 
-  await supabase.from("product_images").delete().eq("product_id", productId);
+  await supabase
+    .from("product_images")
+    .delete()
+    .eq("tenant_id", TENANT_ID)
+    .eq("product_id", productId);
 
   if (images.length > 0) {
     const imageRows = images.map((url, index) => ({
       product_id: productId,
       image_url: url,
       display_order: index,
+      tenant_id: TENANT_ID,
     }));
     const { error: imgError } = await supabase
       .from("product_images")
@@ -234,6 +246,7 @@ export async function bulkImportProducts(rows) {
         const { data: existingCategory } = await supabase
           .from("categories")
           .select("id")
+          .eq("tenant_id", TENANT_ID)
           .ilike("name", categoryName)
           .maybeSingle();
 
@@ -247,7 +260,7 @@ export async function bulkImportProducts(rows) {
 
           const { data: newCategory, error: catError } = await supabase
             .from("categories")
-            .insert({ name: categoryName, slug, image_url: null })
+            .insert({ name: categoryName, slug, image_url: null, tenant_id: TENANT_ID })
             .select()
             .single();
 
@@ -274,6 +287,7 @@ export async function bulkImportProducts(rows) {
         stock: Number(row.stock) || 0,
         category_id: categoryId,
         is_featured: row.is_featured === "true" || row.is_featured === true,
+        tenant_id: TENANT_ID,
       };
 
       const { data: product, error: productError } = await supabase
@@ -289,6 +303,7 @@ export async function bulkImportProducts(rows) {
           product_id: product.id,
           image_url: url,
           display_order: index,
+          tenant_id: TENANT_ID,
         }));
         const { error: imgError } = await supabase
           .from("product_images")
@@ -330,6 +345,7 @@ export async function createCategoryAction(formData, imageUrl) {
     name: formData.name.trim(),
     slug: formData.slug.trim(),
     image_url: imageUrl || null,
+    tenant_id: TENANT_ID,
   };
 
   const { error } = await supabase.from("categories").insert(categoryData);
@@ -360,6 +376,7 @@ export async function updateCategoryAction(categoryId, formData, imageUrl) {
   const { error } = await supabase
     .from("categories")
     .update(categoryData)
+    .eq("tenant_id", TENANT_ID)
     .eq("id", categoryId);
 
   if (error) throw new Error(error.message);
@@ -376,6 +393,7 @@ export async function deleteCategoryAction(categoryId) {
   const { error } = await supabase
     .from("categories")
     .delete()
+    .eq("tenant_id", TENANT_ID)
     .eq("id", categoryId);
   if (error) throw new Error(error.message);
 
@@ -396,6 +414,7 @@ export async function updateOrderStatusAction(orderId, status) {
   const { error } = await supabase
     .from("orders")
     .update({ status })
+    .eq("tenant_id", TENANT_ID)
     .eq("id", orderId);
 
   if (error) throw new Error(error.message);
@@ -411,6 +430,7 @@ export async function deleteMessageAction(messageId) {
   const { error } = await supabase
     .from("contacts")
     .delete()
+    .eq("tenant_id", TENANT_ID)
     .eq("id", messageId);
   if (error) throw new Error(error.message);
 
