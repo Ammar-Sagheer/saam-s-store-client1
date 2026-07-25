@@ -22,6 +22,29 @@ Follow the checklist in `FEATURES.md` under "Per-client setup checklist"
 exactly, and add the new client's row to `CLIENTS.md` once their tenant
 is created — don't let a new client go untracked.
 
+## Standing habits — act on these phrases without being walked through it
+
+The user will often trigger these with a short, casual phrase rather than
+a full instruction. Recognize them and act:
+
+- **"Client N work done" / "client done" / similar** — the user just
+  finished onboarding a new client. Update `CLIENTS.md` with that
+  client's row (tenant slug, tenant UUID, admin email, repo, Vercel
+  project, domain if known). If anything about the architecture changed
+  while building them, update `FEATURES.md` too. Don't wait to be asked
+  for each file separately — both get checked/updated as one action.
+- **"Backup" / "occasional backup" / "do a backup"** — run the full
+  backup process documented in `FEATURES.md` under "Maintenance habit":
+  the data export SQL (all tables, tenant-scoped as needed) AND the
+  image export (curl each `image_url` found, since the bucket is
+  public-read) — a data-only export is NOT a complete backup, both
+  parts are required every time. Deliver the resulting files to the
+  user; don't just describe that it could be done.
+
+Treat both of these as standing instructions, not one-off requests —
+they apply every time the trigger phrase shows up, in any future
+session, without the user needing to re-explain the process.
+
 ## Multi-tenant discipline
 
 Every query against `categories`, `products`, `product_images`, `orders`,
