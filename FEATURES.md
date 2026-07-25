@@ -7,6 +7,10 @@ the original template had, what's active here, and what was deliberately
 turned off — so a future session (or future-you) doesn't have to
 re-derive it from the diff.
 
+**See `CLIENTS.md`** for the actual registry of every client's tenant
+UUID, admin email, repo, and Vercel project — don't rely on memory or
+chat history for that; it's tracked there.
+
 ## Active / in use
 
 - Storefront browsing, search, filters, cart (localStorage), guest checkout
