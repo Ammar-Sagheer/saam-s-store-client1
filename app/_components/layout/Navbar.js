@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
   MagnifyingGlassIcon,
-  UserIcon,
+  ClipboardDocumentCheckIcon,
   ShoppingCartIcon,
   Bars3Icon,
   XMarkIcon,
@@ -14,7 +14,6 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { useCart } from "@/app/_components/cart/CartContext";
-import { supabaseAuth } from "@/app/_lib/supabase-auth";
 import { siteConfig } from "@/app/_lib/siteConfig";
 
 const navLinks = [
@@ -55,22 +54,9 @@ export default function Navbar() {
   const router = useRouter();
   const { totalItems, setIsOpen } = useCart();
   const [mounted, setMounted] = useState(false);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    supabaseAuth.auth.getUser().then(({ data }) => setUser(data.user));
-
-    const {
-      data: { subscription },
-    } = supabaseAuth.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -334,23 +320,11 @@ export default function Navbar() {
             </button>
 
             <Link
-              href="/account"
+              href="/track-order"
               className="text-text hover:text-primary shrink-0"
-              aria-label="Account"
+              aria-label="Track Order"
             >
-              {user?.user_metadata?.avatar_url ? (
-                <div className="relative w-7 h-7 rounded-full overflow-hidden border border-gray-medium">
-                  <Image
-                    src={user.user_metadata.avatar_url}
-                    alt={user.user_metadata?.full_name || "Account"}
-                    fill
-                    sizes="28px"
-                    className="object-cover"
-                  />
-                </div>
-              ) : (
-                <UserIcon className="w-6 h-6" />
-              )}
+              <ClipboardDocumentCheckIcon className="w-6 h-6" />
             </Link>
 
             <button

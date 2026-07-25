@@ -1,81 +1,13 @@
 "use client";
 
-import { useState, useEffect, useOptimistic, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ShoppingCartIcon,
-  HeartIcon as HeartOutline,
-} from "@heroicons/react/24/outline";
-import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { getDiscountPercentage, formatPrice } from "@/app/_lib/helpers";
 import { useCart } from "@/app/_components/cart/CartContext";
-import { supabaseAuth } from "@/app/_lib/supabase-auth";
-import { toggleWishlistAction } from "@/app/_lib/actions";
-import toast from "react-hot-toast";
 
 export default function ProductCard({ product, priority = false }) {
   const { addToCart } = useCart();
-
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isPending, startTransition] = useTransition();
-  const [optimisticWishlisted, setOptimisticWishlisted] = useOptimistic(
-    isWishlisted,
-    (_state, newValue) => newValue,
-  );
-
-  useEffect(() => {
-    let active = true;
-    async function checkWishlist() {
-      const {
-        data: { user },
-      } = await supabaseAuth.auth.getUser();
-      if (!active) return;
-      setUser(user);
-      if (!user) return;
-
-      const { data } = await supabaseAuth
-        .from("wishlist_items")
-        .select("id")
-        .eq("user_id", user.id)
-        .eq("product_id", product.id)
-        .maybeSingle();
-      if (active) setIsWishlisted(!!data);
-    }
-    checkWishlist();
-    return () => {
-      active = false;
-    };
-  }, [product.id]);
-
-  async function handleWishlistToggle(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (!user) {
-      toast.error("Please sign in to save items to your wishlist.");
-      return;
-    }
-
-    const intendedNewValue = !optimisticWishlisted;
-
-    startTransition(async () => {
-      setOptimisticWishlisted(intendedNewValue);
-      try {
-        const result = await toggleWishlistAction(product.id);
-        setIsWishlisted(result.added);
-        toast.success(
-          result.added ? "Added to wishlist" : "Removed from wishlist",
-        );
-      } catch (err) {
-        // useOptimistic automatically reverts to `isWishlisted` (the real
-        // state) once the transition settles, since we never called
-        // setIsWishlisted on failure — no manual revert code needed.
-        toast.error("Something went wrong.");
-      }
-    });
-  }
 
   // ✅ Check if sale_price is valid AND actually a discount
   const isSaleValid =
@@ -114,21 +46,6 @@ export default function ProductCard({ product, priority = false }) {
             -{discount}%
           </div>
         )}
-
-        {/* Wishlist Button */}
-        <button
-          onClick={handleWishlistToggle}
-          className="cursor-pointer absolute top-2 right-2 z-30 bg-white/90 hover:bg-red-50 p-1.5 rounded-full shadow-sm hover:shadow-md transition-all hover:scale-110 disabled:opacity-50 group/heart"
-          aria-label={
-            optimisticWishlisted ? "Remove from wishlist" : "Add to wishlist"
-          }
-        >
-          {optimisticWishlisted ? (
-            <HeartSolid className="w-4 h-4 text-sale" />
-          ) : (
-            <HeartOutline className="w-4 h-4 text-text-light group-hover/heart:text-sale transition-colors" />
-          )}
-        </button>
 
         {/* Stock Badge */}
         {product.stock !== undefined &&
