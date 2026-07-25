@@ -77,6 +77,24 @@ intentionally in case a specific client ever needs real customer accounts.
    through Google's verification if this becomes a real, ongoing feature
    rather than a one-off test.
 
+## Disaster recovery
+
+`supabase/disaster_recovery.sql` in this repo recreates the full shared
+backend structure (all tables, tenant-scoped RLS policies, RPC functions,
+storage bucket + tenant-folder policies) on a brand-new Supabase project
+in one run, generated from the live project's actual schema — not from
+memory. It restores structure only, not data: every table comes back
+empty, and you re-seed `tenants`/`store_admins` per client afterward (see
+the commented example at the bottom of the file) and recreate each
+client's admin user manually. Regenerate this file if the schema changes
+further, so it doesn't drift from what's actually deployed.
+
+Note the real cost of the shared-project design: since every client runs
+on this one Supabase project, losing access to it takes down every
+client simultaneously, and recovering means updating
+`NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` on every
+single client's Vercel project, not just one.
+
 ## Per-client setup checklist (for client2, client3, ...)
 
 1. New tenant row: `INSERT INTO tenants (slug, name) VALUES (...)`
