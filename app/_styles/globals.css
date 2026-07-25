@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #6b7c2a;
+  --color-primary-hover: #5a6a22;
+  --color-primary-light: #8a9e2a;
+  --color-dark: #2d3a0e;
+  --color-dark-light: #3d4a1e;
+  --color-gray-light: #f5f5f5;
+  --color-gray-medium: #e0e0e0;
+  --color-text: #333333;
+  --color-text-light: #666666;
+  --color-success: #28a745;
+  --color-sale: #e63946;
+  --color-footer: #000000;
+
+  /* New: surface + border tokens for admin panel, so we have
+     something to swap in .dark instead of literal bg-white/border-gray-200 */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f9fafb;
+  --color-border: #e5e7eb;
+  --color-heading: #2d3a0e;
+}
+
+body {
+  font-family: inherit;
+  color: #333333;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-heading: #f0f0f0;
+  --color-text: #e0e0e0;
+  --color-text-light: #a8a8a0;
+  --color-gray-light: #1c1f14; /* was #1a1a2e — now warm dark olive-black */
+  --color-gray-medium: #2c3020; /* was #2a2a3e */
+  --color-primary: #8a9e2a;
+  --color-primary-hover: #9db32e;
+  --color-surface: #22261a; /* was #16162a — now matches sidebar family */
+  --color-surface-alt: #2a2f1e; /* was #20203a */
+  --color-border: #3a3f2c; /* was #33334d */
+}
+
+/* Smooth theme transition — scoped, and explicitly excludes elements
+   that animate on their own (sidebar slide-in, mobile overlay) so the
+   two transitions don't fight each other */
+body,
+.dark,
+[class*="bg-"]:not(aside):not(aside *):not(.mobile-nav-panel):not(
+    .mobile-nav-panel *
+  ):not(.cart-drawer):not(.cart-drawer *),
+[class*="text-"]:not(aside):not(aside *):not(.mobile-nav-panel):not(
+    .mobile-nav-panel *
+  ):not(.cart-drawer):not(.cart-drawer *),
+[class*="border-"]:not(aside):not(aside *):not(.mobile-nav-panel):not(
+    .mobile-nav-panel *
+  ):not(.cart-drawer):not(.cart-drawer *) {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    top: -20px;
+  }
+  to {
+    opacity: 1;
+    top: 24px;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease forwards;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.25s ease forwards;
+}
+
+/* ===== HERO SLIDESHOW ANIMATIONS ===== */
+
+/* @keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  */
+
+@keyframes fadeInUpDelay {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUpDelay2 {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+  animation: fadeInUpDelay 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeInUpDelay2 0.6s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+/* ===== TOAST/ALERT ANIMATIONS ===== */
+
+/* @keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease forwards;
+}
+
+.animate-slide-out-right {
+  animation: slideOutRight 0.3s ease forwards;
+}
+
+.animate-slide-in-top {
+  animation: slideInTop 0.3s ease forwards;
+} */
+
+/* ===== CART DRAWER ANIMATIONS ===== */
+
+/* @keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease forwards;
+}
+
+.animate-slide-out-left {
+  animation: slideOutLeft 0.3s ease forwards;
+} */
+
+/* ===== SCROLL-TO-TOP BUTTON ===== */
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.4s ease forwards;
+}
+
+/* ===== PRODUCT CARD IMAGE ZOOM (Optional Enhancement) ===== */
+
+@keyframes imageZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+.group:hover .animate-image-zoom {
+  animation: imageZoom 0.3s ease forwards;
+}
+
+/* ===== PULSE DOT FOR LIVE INDICATORS ===== */
+/* 
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+} */
+
+/* ===== LOADING SPINNER ===== */
+
+/* @keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 0.8s linear infinite;
+} */
+
+/* ===== SMOOTH TRANSITIONS ===== */
+
+/* .transition-smooth {
+  transition: all 0.3s ease-in-out;
+}
+
+.transition-slower {
+  transition: all 0.5s ease-in-out;
+} */
+
+/* ===== ADMIN DARK MODE (Prep for Item 1) ===== */
