@@ -20,6 +20,14 @@ before making any changes:
 4. **`PROJECT_CONTEXT.md`** — historical background on the *original*
    pre-clone template only. Explicitly marked stale at the top; don't
    treat it as describing this repo's current state.
+5. **`BUSINESS_CONTEXT.md`** — the *why* behind all of the above: who
+   this is actually for (Amazon sellers, via a non-technical middle
+   person), why these are dummy proof-of-business sites rather than real
+   e-commerce, why the architecture decisions were made the way they
+   were, the cost pitch vs. WordPress, and known risks including planned
+   work that isn't built yet. Read this to understand intent, not just
+   mechanics — `FEATURES.md`/`CLIENTS.md`/`CURRENT_BUILD.md` tell you
+   *what* and *where*, this tells you *why*.
 
 ## If cloning this repo for a new client (client2, client3, ...)
 
