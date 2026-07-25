@@ -47,7 +47,7 @@ export default function RefundPolicyPage() {
           <h2 className="text-xl font-bold text-dark">Contact Us</h2>
           <p className="text-text-light text-sm leading-relaxed">
             If you have any questions about our refund policy, please contact us
-            at EMAIL_TODO.
+            at contact@omanandalam.example.com.
           </p>
         </div>
       </div>

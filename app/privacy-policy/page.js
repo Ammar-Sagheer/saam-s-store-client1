@@ -58,7 +58,7 @@ export default function PrivacyPolicyPage() {
           <h2 className="text-xl font-bold text-dark">Contact Us</h2>
           <p className="text-text-light text-sm leading-relaxed">
             If you have any questions about this privacy policy please contact
-            us at EMAIL_TODO.
+            us at contact@omanandalam.example.com.
           </p>
         </div>
       </div>

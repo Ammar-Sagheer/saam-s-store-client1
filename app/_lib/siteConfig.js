@@ -5,12 +5,12 @@ export const siteConfig = {
   tagline: "Quality Products, Trusted Service.",
   logo: "/logo.svg",
 
-  // Contact — TODO: replace with the client's real details before launch
-  address: "ADDRESS_TODO",
-  addressLine1: "ADDRESS_LINE1_TODO",
-  addressLine2: "ADDRESS_LINE2_TODO",
-  contactEmail: "EMAIL_TODO",
-  supportPhoneNumber: "PHONE_TODO",
+  // Contact — placeholder values, replace with the client's real details before launch
+  address: "482 Market St, Riverdale, NJ 07457",
+  addressLine1: "482 Market St",
+  addressLine2: "Riverdale, NJ 07457",
+  contactEmail: "contact@omanandalam.example.com",
+  supportPhoneNumber: "(555) 019-2837",
 
   // Commerce settings
   freeShippingThreshold: 500,
@@ -18,12 +18,12 @@ export const siteConfig = {
   currency: "USD",
   locale: "en-US",
 
-  // Bank transfer details (checkout + order confirmation) — TODO: replace with real details
+  // Bank transfer details (checkout + order confirmation) — placeholder, replace with real details
   bankTransfer: {
-    accountName: "BANK_ACCOUNT_NAME_TODO",
-    accountNumber: "BANK_ACCOUNT_NUMBER_TODO",
-    routingNumber: "BANK_ROUTING_NUMBER_TODO",
-    bankName: "BANK_NAME_TODO",
+    accountName: "Oman and Alam",
+    accountNumber: "0000000000",
+    routingNumber: "000000000",
+    bankName: "PLACEHOLDER BANK",
   },
 
   // SEO / metadata

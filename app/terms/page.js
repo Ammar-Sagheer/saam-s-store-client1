@@ -55,7 +55,7 @@ export default function TermsPage() {
           <h2 className="text-xl font-bold text-dark">5. Contact</h2>
           <p className="text-text-light text-sm leading-relaxed">
             If you have any questions about these terms, please contact us at
-            EMAIL_TODO.
+            contact@omanandalam.example.com.
           </p>
         </div>
       </div>
