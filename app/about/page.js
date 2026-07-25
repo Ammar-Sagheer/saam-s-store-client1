@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {
   ShieldCheckIcon,
   TruckIcon,
@@ -8,8 +7,8 @@ import {
 } from "@heroicons/react/24/outline";
 
 export const metadata = {
-  title: "About | Saamj Store",
-  description: "Learn more about Saamj Store",
+  title: "About | Oman and Alam",
+  description: "Learn more about Oman and Alam",
 };
 
 const values = [
@@ -66,20 +65,18 @@ export default function AboutPage() {
           {/* Text */}
           <div className="flex flex-col gap-6">
             <h2 className="text-4xl font-bold text-dark leading-tight">
-              Everyday Products.{" "}
-              <span className="text-primary">Everyday Value.</span>
+              Quality Products,{" "}
+              <span className="text-primary">Trusted Service.</span>
             </h2>
             <p className="text-text-light text-sm leading-relaxed">
-              SAAMJ LLC is a Connecticut-based company dedicated to bringing you
-              high-quality everyday products at prices that make sense. We
-              believe that smart shopping should not be complicated — just great
+              Oman and Alam is dedicated to bringing you high-quality
+              everyday products at prices that make sense. We believe that
+              smart shopping should not be complicated — just great
               products, great prices, and great service.
             </p>
             <p className="text-text-light text-sm leading-relaxed">
-              From baby care to household essentials, grocery items to pet
-              supplies, we have everything you need for everyday life. Our
-              carefully curated selection ensures that every product meets our
-              high standards of quality and value.
+              Our carefully curated selection ensures that every product
+              meets our high standards of quality and value.
             </p>
             <Link
               href="/shop"
@@ -89,16 +86,8 @@ export default function AboutPage() {
             </Link>
           </div>
 
-          {/* Image */}
-          <div className="relative w-full h-80 lg:h-96">
-            <Image
-              src="https://sgyxlcjqlcbwudekpgfz.supabase.co/storage/v1/object/public/images/hero/Banner.jpg"
-              alt="About Saamj Store"
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover rounded-lg"
-            />
-          </div>
+          {/* TODO: replace with a real photo once available */}
+          <div className="relative w-full h-80 lg:h-96 rounded-lg bg-gradient-to-br from-dark to-dark-light" />
         </div>
       </div>
 
@@ -130,12 +119,12 @@ export default function AboutPage() {
       {/* Company Info */}
       <div className="bg-dark-light py-20">
         <div className="max-w-7xl mx-auto px-4 text-center flex flex-col items-center gap-6">
-          <h2 className="text-3xl font-bold text-white">About SAAMJ LLC</h2>
+          <h2 className="text-3xl font-bold text-white">About Oman and Alam</h2>
           <p className="text-gray-medium text-sm leading-relaxed max-w-2xl">
-            Based in Middletown, Connecticut, SAAMJ LLC was founded with a
-            simple mission — to make quality everyday products accessible to
-            everyone. We are committed to providing an exceptional shopping
-            experience from browsing to delivery.
+            Oman and Alam was founded with a simple mission — to make
+            quality everyday products accessible to everyone. We are
+            committed to providing an exceptional shopping experience from
+            browsing to delivery.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-8 w-full max-w-2xl">
             <div className="flex flex-col items-center gap-2">

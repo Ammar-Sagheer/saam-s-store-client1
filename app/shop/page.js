@@ -3,8 +3,8 @@ import SortSelect from "@/app/_components/shop/SortSelect";
 import { getProducts } from "@/app/_lib/data-service";
 
 export const metadata = {
-  title: "Shop | Saamj Store",
-  description: "Browse all products at Saamj Store",
+  title: "Shop | Oman and Alam",
+  description: "Browse all products at Oman and Alam",
 };
 
 export default async function ShopPage({ searchParams }) {

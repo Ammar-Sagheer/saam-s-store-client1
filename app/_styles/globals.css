@@ -3,25 +3,25 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #6b7c2a;
-  --color-primary-hover: #5a6a22;
-  --color-primary-light: #8a9e2a;
-  --color-dark: #2d3a0e;
-  --color-dark-light: #3d4a1e;
+  --color-primary: #b8892f;
+  --color-primary-hover: #9c7326;
+  --color-primary-light: #d4a44f;
+  --color-dark: #0f1f38;
+  --color-dark-light: #1a2d4d;
   --color-gray-light: #f5f5f5;
   --color-gray-medium: #e0e0e0;
   --color-text: #333333;
   --color-text-light: #666666;
   --color-success: #28a745;
   --color-sale: #e63946;
-  --color-footer: #000000;
+  --color-footer: #0f1f38;
 
   /* New: surface + border tokens for admin panel, so we have
      something to swap in .dark instead of literal bg-white/border-gray-200 */
   --color-surface: #ffffff;
   --color-surface-alt: #f9fafb;
   --color-border: #e5e7eb;
-  --color-heading: #2d3a0e;
+  --color-heading: #0f1f38;
 }
 
 body {
@@ -34,13 +34,13 @@ body {
   --color-heading: #f0f0f0;
   --color-text: #e0e0e0;
   --color-text-light: #a8a8a0;
-  --color-gray-light: #1c1f14; /* was #1a1a2e — now warm dark olive-black */
-  --color-gray-medium: #2c3020; /* was #2a2a3e */
-  --color-primary: #8a9e2a;
-  --color-primary-hover: #9db32e;
-  --color-surface: #22261a; /* was #16162a — now matches sidebar family */
-  --color-surface-alt: #2a2f1e; /* was #20203a */
-  --color-border: #3a3f2c; /* was #33334d */
+  --color-gray-light: #12192b;
+  --color-gray-medium: #1f2a42;
+  --color-primary: #d4a44f;
+  --color-primary-hover: #e0b567;
+  --color-surface: #16203a;
+  --color-surface-alt: #1c2942;
+  --color-border: #2c3a58;
 }
 
 /* Smooth theme transition — scoped, and explicitly excludes elements

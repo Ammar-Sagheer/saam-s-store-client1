@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const metadata = { title: "Refund & Returns Policy | Saamj Store" };
+export const metadata = { title: "Refund & Returns Policy | Oman and Alam" };
 
 export default function RefundPolicyPage() {
   return (
@@ -47,7 +47,7 @@ export default function RefundPolicyPage() {
           <h2 className="text-xl font-bold text-dark">Contact Us</h2>
           <p className="text-text-light text-sm leading-relaxed">
             If you have any questions about our refund policy, please contact us
-            at sales@saamjllc.com.
+            at EMAIL_TODO.
           </p>
         </div>
       </div>

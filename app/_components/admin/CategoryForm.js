@@ -46,7 +46,7 @@ export default function CategoryForm({ category }) {
 
     const fileExt = file.name.split(".").pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-    const filePath = `categories/admin-uploads/${fileName}`;
+    const filePath = `${process.env.NEXT_PUBLIC_TENANT_ID}/categories/admin-uploads/${fileName}`;
 
     const { error: uploadError } = await supabaseAuth.storage
       .from("images")

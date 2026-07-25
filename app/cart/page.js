@@ -49,7 +49,7 @@ export default function CartPage() {
           <h1 className="text-3xl font-bold text-white">Cart</h1>
           <div className="flex items-center gap-2 text-sm mt-1">
             <Link href="/" className="text-primary hover:underline">
-              SAAMJ
+              Home
             </Link>
             <span className="text-gray-medium">/</span>
             <span className="text-gray-medium">Cart</span>

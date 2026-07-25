@@ -1,34 +1,32 @@
 export const siteConfig = {
   // Identity
-  name: "SAAMJ",
-  fullName: "SAAMJ LLC",
-  tagline: "Everyday Products. Everyday Value.",
-  logo: "/logo.png",
+  name: "Oman and Alam",
+  fullName: "Oman and Alam",
+  tagline: "Quality Products, Trusted Service.",
+  logo: "/logo.svg",
 
-  // Contact
-  address: "124 Rose Cir, Middletown, CT 06457",
-  addressLine1: "124 Rose Cir",
-  addressLine2: "Middletown, CT 06457",
-  contactEmail: "sales@saamjllc.com",
-  supportPhoneNumber: "Quick response 24/7",
+  // Contact — TODO: replace with the client's real details before launch
+  address: "ADDRESS_TODO",
+  addressLine1: "ADDRESS_LINE1_TODO",
+  addressLine2: "ADDRESS_LINE2_TODO",
+  contactEmail: "EMAIL_TODO",
+  supportPhoneNumber: "PHONE_TODO",
 
   // Commerce settings
   freeShippingThreshold: 500,
   flatShippingCost: 15,
   currency: "USD",
   locale: "en-US",
-  // currency: "PKR",
-  // locale: "en-PK",
 
-  // Bank transfer details (checkout + order confirmation)
+  // Bank transfer details (checkout + order confirmation) — TODO: replace with real details
   bankTransfer: {
-    accountName: "SAAMJ LLC",
-    accountNumber: "9888225076",
-    routingNumber: "022000046",
-    bankName: "M&T BANK",
+    accountName: "BANK_ACCOUNT_NAME_TODO",
+    accountNumber: "BANK_ACCOUNT_NUMBER_TODO",
+    routingNumber: "BANK_ROUTING_NUMBER_TODO",
+    bankName: "BANK_NAME_TODO",
   },
 
   // SEO / metadata
-  metaTitle: "Saamj Store",
-  metaDescription: "Everyday Products. Everyday Value.",
+  metaTitle: "Oman and Alam",
+  metaDescription: "Quality Products, Trusted Service.",
 };

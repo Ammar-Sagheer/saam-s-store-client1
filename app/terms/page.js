@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const metadata = { title: "Terms & Conditions | Saamj Store" };
+export const metadata = { title: "Terms & Conditions | Oman and Alam" };
 
 export default function TermsPage() {
   return (
@@ -21,7 +21,7 @@ export default function TermsPage() {
         <div className="flex flex-col gap-3">
           <h2 className="text-xl font-bold text-dark">1. Introduction</h2>
           <p className="text-text-light text-sm leading-relaxed">
-            Welcome to SAAMJ LLC. By accessing and using our website, you accept
+            Welcome to Oman and Alam. By accessing and using our website, you accept
             and agree to be bound by the terms and conditions outlined here.
             Please read these terms carefully before using our services.
           </p>
@@ -55,7 +55,7 @@ export default function TermsPage() {
           <h2 className="text-xl font-bold text-dark">5. Contact</h2>
           <p className="text-text-light text-sm leading-relaxed">
             If you have any questions about these terms, please contact us at
-            sales@saamjllc.com.
+            EMAIL_TODO.
           </p>
         </div>
       </div>

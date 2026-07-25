@@ -64,7 +64,7 @@ export default function ProductImportForm() {
 
               const fileExt = matchedFile.name.split(".").pop();
               const uniqueName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-              const filePath = `products/bulk-import/${uniqueName}`;
+              const filePath = `${process.env.NEXT_PUBLIC_TENANT_ID}/products/bulk-import/${uniqueName}`;
 
               const { error: uploadError } = await supabaseAuth.storage
                 .from("images")

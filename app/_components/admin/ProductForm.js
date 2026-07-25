@@ -58,7 +58,7 @@ export default function ProductForm({ categories, product }) {
     for (const file of files) {
       const fileExt = file.name.split(".").pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `products/admin-uploads/${fileName}`;
+      const filePath = `${process.env.NEXT_PUBLIC_TENANT_ID}/products/admin-uploads/${fileName}`;
 
       const { error: uploadError } = await supabaseAuth.storage
         .from("images")

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const metadata = { title: "Privacy Policy | Saamj Store" };
+export const metadata = { title: "Privacy Policy | Oman and Alam" };
 
 export default function PrivacyPolicyPage() {
   return (
@@ -58,7 +58,7 @@ export default function PrivacyPolicyPage() {
           <h2 className="text-xl font-bold text-dark">Contact Us</h2>
           <p className="text-text-light text-sm leading-relaxed">
             If you have any questions about this privacy policy please contact
-            us at sales@saamjllc.com.
+            us at EMAIL_TODO.
           </p>
         </div>
       </div>

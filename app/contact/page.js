@@ -9,7 +9,7 @@ import ContactForm from "@/app/_components/contact/ContactForm";
 import { siteConfig } from "@/app/_lib/siteConfig";
 
 export const metadata = {
-  title: "Contact | Saamj Store",
+  title: "Contact | Oman and Alam",
   description: "Get in touch with us",
 };
 

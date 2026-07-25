@@ -2,17 +2,16 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
-// ✅ Define your 3 slides
+// TODO: once real banner photos are available, upload them to this
+// tenant's storage folder and swap this gradient block back for an
+// <Image> per slide (see git history for the original image-based version).
 const slides = [
   {
     id: 1,
-    image:
-      "https://sgyxlcjqlcbwudekpgfz.supabase.co/storage/v1/object/public/images/hero/Banner.jpg",
-    title: "SAAM'S",
-    subtitle: "Everyday Products. Everyday Value.",
+    title: "Oman and Alam",
+    subtitle: "Quality Products, Trusted Service.",
     description:
       "Where smart choices, quality products, and everyday value come together.",
     cta: "SHOP NOW",
@@ -20,8 +19,6 @@ const slides = [
   },
   {
     id: 2,
-    image:
-      "https://sgyxlcjqlcbwudekpgfz.supabase.co/storage/v1/object/public/images/hero/Banner2.jpg", // Replace with your actual image
     title: "New Arrivals",
     subtitle: "Fresh Products Just Landed",
     description: "Discover our latest collection of quality essentials.",
@@ -30,8 +27,6 @@ const slides = [
   },
   {
     id: 3,
-    image:
-      "https://sgyxlcjqlcbwudekpgfz.supabase.co/storage/v1/object/public/images/hero/Banner3.jpg", // Replace with your actual image
     title: "Best Sellers",
     subtitle: "Customer Favorites",
     description: "Shop the products everyone is loving right now.",
@@ -83,16 +78,12 @@ export default function HeroSection() {
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {slides.map((slide) => (
-          <div key={slide.id} className="relative w-full h-full shrink-0 ">
-            <Image
-              src={slide.image}
-              alt={slide.title}
-              fill
-              className="object-cover"
-              priority={slide.id === 1}
-            />
+          <div
+            key={slide.id}
+            className="relative w-full h-full shrink-0 bg-gradient-to-br from-dark to-dark-light"
+          >
             {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/45" />
+            <div className="absolute inset-0 bg-black/20" />
           </div>
         ))}
       </div>
