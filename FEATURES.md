@@ -95,6 +95,43 @@ client simultaneously, and recovering means updating
 `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` on every
 single client's Vercel project, not just one.
 
+## Maintenance habit: backup after every new client
+
+Since this Supabase project has no automatic backups on the free tier,
+and every client shares this one project (see blast-radius note above),
+run a full backup **after onboarding each new client** (new tenant added,
+catalog seeded). Two parts — both needed, a data export alone is not
+enough:
+
+1. **Data export** — dump every table as JSON. Query used:
+   ```sql
+   SELECT json_build_object(
+     'tenants', (SELECT jsonb_agg(t) FROM tenants t),
+     'store_admins', (SELECT jsonb_agg(t) FROM store_admins t),
+     'categories', (SELECT jsonb_agg(t) FROM categories t),
+     'products', (SELECT jsonb_agg(t) FROM products t),
+     'product_images', (SELECT jsonb_agg(t) FROM product_images t),
+     'orders', (SELECT jsonb_agg(t) FROM orders t),
+     'contacts', (SELECT jsonb_agg(t) FROM contacts t),
+     'hero_slides', (SELECT jsonb_agg(t) FROM hero_slides t),
+     'addresses', (SELECT jsonb_agg(t) FROM addresses t),
+     'profiles', (SELECT jsonb_agg(t) FROM profiles t),
+     'wishlist_items', (SELECT jsonb_agg(t) FROM wishlist_items t)
+   ) AS backup;
+   ```
+2. **Image export** — a data export alone does NOT back up images;
+   `image_url` columns are just text pointers into Supabase Storage. Since
+   the `images` bucket is public-read, every URL captured in the data
+   export can be downloaded directly (no service-role key needed):
+   `curl -sSL -o <name> "<image_url>"` for each URL found in
+   `categories.image_url`, `products` via `product_images.image_url`, and
+   `hero_slides.image_url`.
+
+Both exports are currently a manual, on-request process (ask whoever's
+driving the session to run them) — there's no automation for this yet.
+Store the resulting files somewhere outside the AI session, since
+scratchpad files don't persist once a session ends.
+
 ## Per-client setup checklist (for client2, client3, ...)
 
 1. New tenant row: `INSERT INTO tenants (slug, name) VALUES (...)`

@@ -1,6 +1,16 @@
 # PROJECT_CONTEXT.md — saamj-store
 
-> **Primary source of truth for this project.** Paste this file into a new AI conversation to continue development exactly where we left off.
+> ⚠️ **This file describes the original saamj-store template, before this
+> repo was cloned and converted into a multi-tenant client site.** It's
+> kept for historical background on the original architecture/decisions,
+> but it does **not** reflect this repo's current state — customer
+> accounts/wishlist are disconnected, the chat widget is removed, the
+> database is a shared multi-tenant Supabase project instead of a
+> dedicated one, etc.
+>
+> **For this repo's actual current state, read `FEATURES.md` instead** —
+> that's the primary source of truth going forward. Paste `FEATURES.md`
+> into a new AI conversation to continue development on this repo.
 
 ---
 
