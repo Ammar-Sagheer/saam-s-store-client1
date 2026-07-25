@@ -12,12 +12,19 @@ re-derive it from the diff.
 - Storefront browsing, search, filters, cart (localStorage), guest checkout
 - Order confirmation + order tracking (`/track-order`, id + email lookup)
 - Full admin panel (`/admin`), products/categories/orders/messages CRUD
+- **Hero banner** (`/admin/hero`) — new feature, not in the original
+  template. Homepage hero slides (title/subtitle/description/CTA/image)
+  are now DB-backed (`hero_slides` table, tenant-scoped) and editable per
+  client from the admin panel, instead of being hardcoded in
+  `HeroSection.js`. Falls back to a single generic slide with no image if
+  the admin hasn't added any slides yet.
 - Multi-tenant scoping: every query filtered by `TENANT_ID` env var;
   admin writes checked against `store_admins` table (see `PROJECT_CONTEXT.md`
   history and the `multi_tenant_refactor` Supabase migration for the
   original single-tenant → multi-tenant change)
 - Storage bucket uploads scoped per-tenant folder
-  (`{tenant_id}/products/...`, `{tenant_id}/categories/...`), enforced by
+  (`{tenant_id}/products/...`, `{tenant_id}/categories/...`,
+  `{tenant_id}/hero/...`), enforced by
   storage RLS against `store_admins`, not just app convention
 - Bank-transfer manual payment flow (checkout + order confirmation)
 

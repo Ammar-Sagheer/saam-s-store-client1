@@ -276,6 +276,31 @@ export async function getCategoryById(id) {
   return data;
 }
 
+// ==================== HERO SLIDES ====================
+
+export async function getHeroSlides() {
+  const { data, error } = await supabase
+    .from("hero_slides")
+    .select("*")
+    .eq("tenant_id", TENANT_ID)
+    .order("display_order");
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function getHeroSlideById(id) {
+  const { data, error } = await supabase
+    .from("hero_slides")
+    .select("*")
+    .eq("tenant_id", TENANT_ID)
+    .eq("id", id)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
 // ==================== MESSAGES ====================
 
 export async function getAllMessages(page = 1, pageSize = 3) {

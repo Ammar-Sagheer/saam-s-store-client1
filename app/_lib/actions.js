@@ -402,6 +402,77 @@ export async function deleteCategoryAction(categoryId) {
   revalidatePath("/shop");
 }
 
+export async function createHeroSlideAction(formData, imageUrl) {
+  const supabase = await createSupabaseServer();
+  await requireAdmin(supabase);
+
+  if (!formData.title?.trim()) {
+    throw new Error("Title is required.");
+  }
+
+  const slideData = {
+    title: formData.title.trim(),
+    subtitle: formData.subtitle?.trim() || null,
+    description: formData.description?.trim() || null,
+    cta_text: formData.cta_text?.trim() || "SHOP NOW",
+    cta_link: formData.cta_link?.trim() || "/shop",
+    image_url: imageUrl || null,
+    display_order: Number(formData.display_order) || 0,
+    tenant_id: TENANT_ID,
+  };
+
+  const { error } = await supabase.from("hero_slides").insert(slideData);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/hero");
+  revalidatePath("/");
+}
+
+export async function updateHeroSlideAction(slideId, formData, imageUrl) {
+  const supabase = await createSupabaseServer();
+  await requireAdmin(supabase);
+
+  if (!formData.title?.trim()) {
+    throw new Error("Title is required.");
+  }
+
+  const slideData = {
+    title: formData.title.trim(),
+    subtitle: formData.subtitle?.trim() || null,
+    description: formData.description?.trim() || null,
+    cta_text: formData.cta_text?.trim() || "SHOP NOW",
+    cta_link: formData.cta_link?.trim() || "/shop",
+    image_url: imageUrl || null,
+    display_order: Number(formData.display_order) || 0,
+  };
+
+  const { error } = await supabase
+    .from("hero_slides")
+    .update(slideData)
+    .eq("tenant_id", TENANT_ID)
+    .eq("id", slideId);
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/hero");
+  revalidatePath("/");
+}
+
+export async function deleteHeroSlideAction(slideId) {
+  const supabase = await createSupabaseServer();
+  await requireAdmin(supabase);
+
+  const { error } = await supabase
+    .from("hero_slides")
+    .delete()
+    .eq("tenant_id", TENANT_ID)
+    .eq("id", slideId);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/hero");
+  revalidatePath("/");
+}
+
 export async function updateOrderStatusAction(orderId, status) {
   const supabase = await createSupabaseServer();
   await requireAdmin(supabase);

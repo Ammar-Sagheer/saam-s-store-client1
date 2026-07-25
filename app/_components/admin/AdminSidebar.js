@@ -9,6 +9,7 @@ import {
   TagIcon,
   ClipboardDocumentListIcon,
   EnvelopeIcon,
+  PhotoIcon,
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -25,6 +26,11 @@ const sidebarLinks = [
     name: "Categories",
     href: "/admin/categories",
     icon: <TagIcon className="w-5 h-5" />,
+  },
+  {
+    name: "Hero Banner",
+    href: "/admin/hero",
+    icon: <PhotoIcon className="w-5 h-5" />,
   },
   {
     name: "Orders",

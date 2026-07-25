@@ -2,40 +2,27 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
-// TODO: once real banner photos are available, upload them to this
-// tenant's storage folder and swap this gradient block back for an
-// <Image> per slide (see git history for the original image-based version).
-const slides = [
+// Fallback used only when the admin hasn't configured any slides yet
+// (Admin panel → Hero Banner).
+const defaultSlides = [
   {
-    id: 1,
-    title: "Oman and Alam",
-    subtitle: "Quality Products, Trusted Service.",
-    description:
-      "Where smart choices, quality products, and everyday value come together.",
-    cta: "SHOP NOW",
-    link: "/shop",
-  },
-  {
-    id: 2,
+    id: "default-1",
     title: "New Arrivals",
     subtitle: "Fresh Products Just Landed",
     description: "Discover our latest collection of quality essentials.",
-    cta: "EXPLORE",
-    link: "/shop",
-  },
-  {
-    id: 3,
-    title: "Best Sellers",
-    subtitle: "Customer Favorites",
-    description: "Shop the products everyone is loving right now.",
-    cta: "VIEW ALL",
-    link: "/shop",
+    cta_text: "EXPLORE",
+    cta_link: "/shop",
+    image_url: null,
   },
 ];
 
-export default function HeroSection() {
+export default function HeroSection({ slides: slidesProp }) {
+  const slides =
+    slidesProp && slidesProp.length > 0 ? slidesProp : defaultSlides;
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -77,11 +64,20 @@ export default function HeroSection() {
         className="flex transition-transform duration-500 ease-in-out h-full"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
-        {slides.map((slide) => (
+        {slides.map((slide, index) => (
           <div
             key={slide.id}
             className="relative w-full h-full shrink-0 bg-gradient-to-br from-dark to-dark-light"
           >
+            {slide.image_url && (
+              <Image
+                src={slide.image_url}
+                alt={slide.title}
+                fill
+                className="object-cover"
+                priority={index === 0}
+              />
+            )}
             {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/20" />
           </div>
@@ -90,77 +86,87 @@ export default function HeroSection() {
 
       {/* Text Content - Overlays on top of slides */}
       <div className="absolute inset-0 z-10 flex flex-col items-center  justify-center text-center px-8 md:items-start md:text-left md:px-40 gap-6 text-white">
-        <p className="text-lg animate-fade-in">{current.subtitle}</p>
+        {current.subtitle && (
+          <p className="text-lg animate-fade-in">{current.subtitle}</p>
+        )}
         <h1 className="text-5xl md:text-7xl font-bold animate-fade-in-delay">
           {current.title}
         </h1>
-        <p className="text-lg max-w-md animate-fade-in-delay-2">
-          {current.description}
-        </p>
+        {current.description && (
+          <p className="text-lg max-w-md animate-fade-in-delay-2">
+            {current.description}
+          </p>
+        )}
         <Link
-          href={current.link}
+          href={current.cta_link || "/shop"}
           className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white font-medium py-3 px-6 w-fit animate-fade-in-delay-2"
         >
           <ShoppingCartIcon className="w-5 h-5" />
-          {current.cta}
+          {current.cta_text || "SHOP NOW"}
         </Link>
       </div>
 
       {/* Dot Indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all cursor-pointer ${
-              index === currentSlide
-                ? "bg-white w-8"
-                : "bg-white/50 hover:bg-white/80"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {slides.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-3 h-3 rounded-full transition-all cursor-pointer ${
+                index === currentSlide
+                  ? "bg-white w-8"
+                  : "bg-white/50 hover:bg-white/80"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
-      {/* Prev/Next Buttons (optional - can remove if you prefer auto-play only) */}
-      <button
-        onClick={goToPrevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full cursor-pointer transition-colors hidden md:block"
-        aria-label="Previous slide"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </button>
-      <button
-        onClick={goToNextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full cursor-pointer transition-colors hidden md:block"
-        aria-label="Next slide"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 5l7 7-7 7"
-          />
-        </svg>
-      </button>
+      {/* Prev/Next Buttons */}
+      {slides.length > 1 && (
+        <>
+          <button
+            onClick={goToPrevSlide}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full cursor-pointer transition-colors hidden md:block"
+            aria-label="Previous slide"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+          <button
+            onClick={goToNextSlide}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full cursor-pointer transition-colors hidden md:block"
+            aria-label="Next slide"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </button>
+        </>
+      )}
     </section>
   );
 }
