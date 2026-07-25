@@ -4,23 +4,33 @@ This is a client clone of the `saam-s-store` template, running on a
 **shared multi-tenant Supabase project** — read these first, in order,
 before making any changes:
 
-1. **`FEATURES.md`** — what's active, what's intentionally disconnected
+1. **`CURRENT_BUILD.md`** — is there a client build already in progress?
+   Read this FIRST, before anything else. It tells you exactly what's
+   done and what's left on whatever client was being built when work
+   last stopped — possibly a week or more ago. Don't assume a clean
+   slate without checking this.
+2. **`FEATURES.md`** — what's active, what's intentionally disconnected
    (customer accounts, wishlist, Google OAuth), what was fully removed
    (the chat widget), the multi-tenant architecture, the backup habit,
    and the per-client setup checklist. This is the primary source of
    truth for this repo's current state.
-2. **`CLIENTS.md`** — the actual registry of every client's tenant UUID,
-   admin email, repo, and Vercel project. Never guess or reconstruct
-   these from memory — this file is authoritative.
-3. **`PROJECT_CONTEXT.md`** — historical background on the *original*
+3. **`CLIENTS.md`** — the actual registry of every *finished* client's
+   tenant UUID, admin email, repo, and Vercel project. Never guess or
+   reconstruct these from memory — this file is authoritative.
+4. **`PROJECT_CONTEXT.md`** — historical background on the *original*
    pre-clone template only. Explicitly marked stale at the top; don't
    treat it as describing this repo's current state.
 
 ## If cloning this repo for a new client (client2, client3, ...)
 
-Follow the checklist in `FEATURES.md` under "Per-client setup checklist"
-exactly, and add the new client's row to `CLIENTS.md` once their tenant
-is created — don't let a new client go untracked.
+1. Copy the template block from `CURRENT_BUILD.md` into its "Status"
+   section, set it to "IN PROGRESS", and keep it updated — check items
+   off as they're actually done, update "Last updated" every session,
+   don't let it go stale mid-build.
+2. Follow the checklist in `FEATURES.md` under "Per-client setup
+   checklist".
+3. Once finished: add the client's row to `CLIENTS.md`, then reset
+   `CURRENT_BUILD.md` back to "No build currently in progress".
 
 ## Standing habits — act on these phrases without being walked through it
 
@@ -31,8 +41,13 @@ a full instruction. Recognize them and act:
   finished onboarding a new client. Update `CLIENTS.md` with that
   client's row (tenant slug, tenant UUID, admin email, repo, Vercel
   project, domain if known). If anything about the architecture changed
-  while building them, update `FEATURES.md` too. Don't wait to be asked
-  for each file separately — both get checked/updated as one action.
+  while building them, update `FEATURES.md` too. Reset `CURRENT_BUILD.md`
+  back to "No build currently in progress". Don't wait to be asked for
+  each file separately — all three get checked/updated as one action.
+- **During an in-progress client build** — update `CURRENT_BUILD.md` as
+  steps actually complete (check items off, update "Last updated"), not
+  just at the very start or end. The whole point is that work can stop
+  for a week and pick back up cleanly — a stale checklist defeats that.
 - **"Backup" / "occasional backup" / "do a backup"** — run the full
   backup process documented in `FEATURES.md` under "Maintenance habit":
   the data export SQL (all tables, tenant-scoped as needed) AND the
