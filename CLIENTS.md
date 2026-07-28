@@ -15,7 +15,7 @@ Shared backend for every row below:
 
 | Client | Tenant slug | Tenant UUID (= `TENANT_ID` = `NEXT_PUBLIC_TENANT_ID`) | Admin email (`ADMIN_EMAIL`) | Repo | Vercel project | Domain |
 |---|---|---|---|---|---|---|
-| Client1 (Oman and Alam) | `client1` | `708a55c7-d622-41fd-92d9-d8bc7847b36c` | `testemail@gmail.com` | `Ammar-Sagheer/saam-s-store-client1` | _TBD — fill in exact Vercel project name_ | _TBD — not yet purchased/attached_ |
+| Client1 (Oman and Alam) | `client1` | `708a55c7-d622-41fd-92d9-d8bc7847b36c` | `testemail@gmail.com` | `Ammar-Sagheer/saam-s-store-client1` | `saam-s-store-client1` (live at `saam-s-store-client1.vercel.app`) | _TBD — custom domain not yet purchased/attached_ |
 
 ## Env vars per client, for reference
 
