@@ -33,6 +33,15 @@ chat history for that; it's tracked there.
   here but discussed when this was built — rough rule of thumb: ~12-20
   clients on Supabase free tier's 1GB storage before compression, closer
   to double that after).
+- **Navbar category dropdown is DB-driven, not hardcoded** — root layout
+  (`app/layout.js`) fetches real categories and passes them through
+  `AppChrome` → `Navbar`, so the dropdown always matches whatever
+  categories this specific tenant actually has. The original template
+  had a hardcoded category list in `Navbar.js` that would have been
+  wrong for every client clone unless manually edited each time. The
+  fetch is wrapped in try/catch since it now runs on every route
+  (including `/admin` pages that don't render the navbar) — falls back
+  to an empty dropdown rather than ever taking the whole site down.
 - Multi-tenant scoping: every query filtered by `TENANT_ID` env var;
   admin writes checked against `store_admins` table (see `PROJECT_CONTEXT.md`
   history and the `multi_tenant_refactor` Supabase migration for the
