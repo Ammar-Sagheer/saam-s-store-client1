@@ -28,6 +28,14 @@ before making any changes:
    work that isn't built yet. Read this to understand intent, not just
    mechanics — `FEATURES.md`/`CLIENTS.md`/`CURRENT_BUILD.md` tell you
    *what* and *where*, this tells you *why*.
+6. **`ONBOARDING_WORKFLOW.md`** — the exact operational steps for
+   onboarding a new client, in order: domain purchase, the new-Vercel-
+   account-per-client process (different email, different browser
+   profile/network, CLI deploy with no GitHub connection), Supabase
+   tenant setup, rebrand/catalog seeding, deploy, domain attach,
+   handover, and exactly what goes to the client vs. what never leaves
+   your hands. Follow this literally when starting a new client — don't
+   reconstruct the process from general knowledge of the codebase.
 
 ## If cloning this repo for a new client (client2, client3, ...)
 
