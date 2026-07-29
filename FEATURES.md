@@ -22,6 +22,17 @@ chat history for that; it's tracked there.
   client from the admin panel, instead of being hardcoded in
   `HeroSection.js`. Falls back to a single generic slide with no image if
   the admin hasn't added any slides yet.
+- **Client-side image compression before upload** (`app/_lib/compressImage.js`)
+  — new, not in the original template. Every admin image upload path
+  (products, categories, hero slides, bulk import) resizes + re-encodes
+  as JPEG via the Canvas API before it reaches Supabase Storage, falling
+  back to the original file if compression fails for any reason. Added
+  because unoptimized stock photos (hero/category images) were averaging
+  2.5-2.7MB each — a real constraint on the shared project's storage
+  quota at scale (see "How many clients fit" math, not yet written down
+  here but discussed when this was built — rough rule of thumb: ~12-20
+  clients on Supabase free tier's 1GB storage before compression, closer
+  to double that after).
 - Multi-tenant scoping: every query filtered by `TENANT_ID` env var;
   admin writes checked against `store_admins` table (see `PROJECT_CONTEXT.md`
   history and the `multi_tenant_refactor` Supabase migration for the
