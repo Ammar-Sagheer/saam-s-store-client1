@@ -16,33 +16,28 @@ import {
 import { useCart } from "@/app/_components/cart/CartContext";
 import { siteConfig } from "@/app/_lib/siteConfig";
 
-const navLinks = [
+const baseNavLinks = [
   { name: "Home", href: "/" },
-  {
-    name: "Categories",
-    href: "/shop",
-    dropdown: [
-      { name: "Baby Care", href: "/shop?category=baby-care" },
-      {
-        name: "Beauty & Personal Care",
-        href: "/shop?category=beauty-personal-care",
-      },
-      { name: "Grocery & Gourmet", href: "/shop?category=grocery-gourmet" },
-      { name: "Hardware & Tools", href: "/shop?category=hardware-tools" },
-      { name: "Health & Household", href: "/shop?category=health-household" },
-      { name: "Home & Kitchen", href: "/shop?category=home-kitchen" },
-      { name: "Office & Stationary", href: "/shop?category=office-stationary" },
-      { name: "Pet Care", href: "/shop?category=pet-care" },
-      { name: "Toys & Games", href: "/shop?category=toys-games" },
-    ],
-  },
   { name: "Shop", href: "/shop" },
   { name: "Track Order", href: "/track-order" },
   { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ categories = [] }) {
+  const navLinks = [
+    baseNavLinks[0],
+    {
+      name: "Categories",
+      href: "/shop",
+      dropdown: categories.map((cat) => ({
+        name: cat.name,
+        href: `/shop?category=${cat.slug}`,
+      })),
+    },
+    ...baseNavLinks.slice(1),
+  ];
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);

@@ -3,6 +3,7 @@ import "@/app/_styles/globals.css";
 import { Toaster } from "react-hot-toast";
 import AppChrome from "@/app/_components/layout/AppChrome";
 import { siteConfig } from "@/app/_lib/siteConfig";
+import { getCategories } from "@/app/_lib/data-service";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -14,7 +15,20 @@ export const metadata = {
   description: siteConfig.metaDescription,
 };
 
-export default function RootLayout({ children }) {
+export const revalidate = 3600;
+
+export default async function RootLayout({ children }) {
+  // Wrapped: this fetch now runs for every route, including /admin pages
+  // that don't render the navbar at all. A transient failure here must
+  // never take down the entire site — fall back to an empty dropdown
+  // instead.
+  let categories = [];
+  try {
+    categories = await getCategories();
+  } catch (err) {
+    console.error("Failed to load categories for navbar:", err.message);
+  }
+
   return (
     <html lang="en">
       <body className={roboto.className}>
@@ -63,7 +77,7 @@ export default function RootLayout({ children }) {
             },
           }}
         />
-        <AppChrome>{children}</AppChrome>
+        <AppChrome categories={categories}>{children}</AppChrome>
       </body>
     </html>
   );

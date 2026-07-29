@@ -9,7 +9,7 @@ import ScrollToTop from "@/app/_components/ui/ScrollToTop";
 import { CartProvider } from "@/app/_components/cart/CartContext";
 import CartDrawer from "@/app/_components/cart/CartDrawer";
 
-export default function AppChrome({ children }) {
+export default function AppChrome({ children, categories }) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
 
@@ -21,7 +21,7 @@ export default function AppChrome({ children }) {
     <CartProvider>
       <AnnouncementBar />
       <Suspense fallback={<div className="h-16 bg-white shadow-sm" />}>
-        <Navbar />
+        <Navbar categories={categories} />
       </Suspense>
       <CartDrawer />
       {children}
