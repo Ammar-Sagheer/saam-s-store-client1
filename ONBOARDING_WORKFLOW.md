@@ -12,10 +12,16 @@ glance at.
    Hostinger. Domain registration only — no hosting plan needed anymore.
 2. **Middle person gives a fresh email** for this client — a different
    one each time, used only to create this client's Vercel account.
-3. **Create a new Vercel account** with that email. New browser profile
-   + different network for the signup. Log in via **email**, not GitHub
-   OAuth — never connect GitHub to this account. Vercel login stays
-   with you, not handed to the client.
+3. **Create a new Vercel account** with that email, on the **free
+   (Hobby) tier** — not Pro. New browser profile + different network
+   for the signup. Log in via **email**, not GitHub OAuth — never
+   connect GitHub to this account. Vercel login stays with you, not
+   handed to the client. Known tradeoff: this is a deliberate choice
+   over one shared Pro account — isolates risk per client (one flagged
+   account ≠ everyone down) but expect occasional account flags at
+   scale; if it happens, code/data are safe (they live in Supabase and
+   locally, not in the Vercel account) — just redeploy to a fresh
+   account and re-point the domain.
 
 ## Phase 2 — Build the site (repeats per client)
 
@@ -45,8 +51,9 @@ glance at.
 
 ## Phase 4 — Wrap up (repeats per client)
 
-10. **Update the tracking docs**: add the new row to `CLIENTS.md`,
-    reset `CURRENT_BUILD.md` back to "no build in progress."
+10. **Update the tracking docs**: add the new row to `CLIENTS.md`
+    (including the Vercel account email — this is per-client now, not
+    shared), reset `CURRENT_BUILD.md` back to "no build in progress."
 11. **Run a backup**: data export AND image export, both — not just one.
 
 ## Who gets what

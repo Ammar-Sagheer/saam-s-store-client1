@@ -32,11 +32,22 @@ reliability reasons — see the cost/tradeoff discussion below.
   scale (see "Cost" below). The real cost of this choice: it's a single
   point of failure across every client at once (see `FEATURES.md`'s
   disaster recovery section).
-- **Vercel Pro, one project per client** (not shared). Hobby/free tier
-  explicitly disallows commercial use and risks account suspension —
-  bad when 10 client sites share one account. Pro is a flat $20/mo
-  regardless of client count, so unlike Supabase, per-client Vercel
-  projects don't need to be shared to stay affordable.
+- **A separate Vercel account per client, on the free (Hobby) tier —
+  not one shared Pro account.** This was the original plan (see git
+  history on this file), but was deliberately changed: Hobby tier
+  technically disallows commercial use, but the realistic risk isn't
+  traffic-based — it's *account-creation pattern* detection (many free
+  accounts, from the same person, deploying near-identical codebases).
+  Mitigations: a different real email per client (bought from
+  Hostinger), a different browser profile + network per signup, and
+  deploying via `vercel --prod` CLI with **no GitHub connection** at
+  all (GitHub-account linkage is a much stronger correlating signal
+  than a shared email would be — see `ONBOARDING_WORKFLOW.md`).
+  Tradeoff accepted knowingly: if one client's account gets flagged,
+  only that one site goes down (isolation is a real upside over a
+  shared account), but expect this to happen occasionally at scale,
+  not treat it as solved. No GitHub repo is created per client either
+  under this model — code is cloned locally and deployed directly.
 - **Chat widget removed entirely** (not just disabled). It called an
   external agent backend that isn't tenant-aware — would have leaked
   one client's product data into another client's chat answers under
@@ -54,6 +65,13 @@ reliability reasons — see the cost/tradeoff discussion below.
   Was previously hardcoded in code, requiring a redeploy per client to
   change a banner image — now each client manages their own via
   `/admin/hero`, same tenant-scoped pattern as everything else.
+- **Hostinger was considered for hosting the actual app, not just the
+  domain — rejected.** Basic/shared Hostinger hosting can't run this
+  app at all (it needs a live Node process for Server Actions/API
+  routes, not a static export). A Hostinger VPS *could* technically
+  run it, but would reintroduce exactly the maintenance burden
+  (patching, process crash-recovery, manual SSL) that Vercel was
+  chosen to avoid in the first place. Hostinger stays domain-registrar-only.
 
 ## Domain/DNS handoff with the middle person
 
@@ -70,9 +88,12 @@ login is ever shared in either direction.
 
 - WordPress/Hostinger: roughly $8–11/month in hosting **per client**,
   cost scaling linearly with client count.
-- This stack: a flat ~$20–45/month total (Vercel Pro + optional Supabase
-  Pro), regardless of how many clients are on it — marginal cost per
-  additional client is close to $0.
+- This stack: **$0/month on Vercel** (free-tier account per client, no
+  Pro subscription — see the architecture note above on why), plus
+  $0–25/month on Supabase (free tier now, optional Pro later purely to
+  avoid the auto-pause risk, still shared/flat across every client
+  regardless of count). Marginal cost per additional client is close
+  to $0 either way.
 - The middle person also stops paying for hosting entirely — he only
   ever buys the domain now.
 - Non-cost wins: no WordPress plugin-hack risk, no plugin-update
@@ -100,6 +121,13 @@ login is ever shared in either direction.
   trust & safety systems (Vercel, Supabase, even Amazon's own review of
   the seller). Worth keeping content/design varied enough per client
   that they don't look like an obvious template farm.
+- **Free-tier Vercel account-creation pattern is a real, ongoing risk,
+  not traffic-dependent.** See the architecture note above — mitigated
+  but not eliminated by different emails/browsers/networks per signup
+  and no GitHub connection. Expect occasional account flags at scale;
+  have a redeploy-to-a-fresh-account runbook mentally ready rather than
+  being caught off guard (code/data are safe regardless — they live in
+  Supabase and locally, not in the Vercel account itself).
 
 ## Planned work — not yet implemented
 

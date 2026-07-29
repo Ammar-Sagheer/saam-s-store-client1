@@ -13,9 +13,15 @@ Shared backend for every row below:
 - `NEXT_PUBLIC_SUPABASE_URL`: `https://siwosrjmbrgoautfmzfy.supabase.co`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: see Supabase dashboard → Settings → API (not duplicated here since it doesn't change per client)
 
-| Client | Tenant slug | Tenant UUID (= `TENANT_ID` = `NEXT_PUBLIC_TENANT_ID`) | Admin email (`ADMIN_EMAIL`) | Repo | Vercel project | Domain |
-|---|---|---|---|---|---|---|
-| Client1 (Oman and Alam) | `client1` | `708a55c7-d622-41fd-92d9-d8bc7847b36c` | `testemail@gmail.com` | `Ammar-Sagheer/saam-s-store-client1` | `saam-s-store-client1` (live at `saam-s-store-client1.vercel.app`) | _TBD — custom domain not yet purchased/attached_ |
+| Client | Tenant slug | Tenant UUID (= `TENANT_ID` = `NEXT_PUBLIC_TENANT_ID`) | Admin email (`ADMIN_EMAIL`) | Repo | Vercel account email | Vercel project | Domain |
+|---|---|---|---|---|---|---|---|
+| Client1 (Oman and Alam) | `client1` | `708a55c7-d622-41fd-92d9-d8bc7847b36c` | `testemail@gmail.com` | `Ammar-Sagheer/saam-s-store-client1` | Ammar's own account — *predates* the new-account-per-client policy, an exception not the pattern | `saam-s-store-client1` (live at `saam-s-store-client1.vercel.app`) | _TBD — custom domain not yet purchased/attached_ |
+
+Client2 onward: per `ONBOARDING_WORKFLOW.md`, each client gets a
+**separate free-tier Vercel account** (different email, no GitHub
+connection, deployed via `vercel --prod` CLI) — so the "Vercel account
+email" column matters going forward even though client1 doesn't follow
+this pattern.
 
 ## Env vars per client, for reference
 

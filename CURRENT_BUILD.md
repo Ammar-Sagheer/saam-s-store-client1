@@ -36,11 +36,12 @@ Started: <date>
 - [ ] store_admins row created (admin email: ___)
 - [ ] Admin auth user created in Supabase dashboard (matching email above)
 
-**Repo + hosting**
-- [ ] New private GitHub repo created (name: ___)
-- [ ] Code cloned from client1 (chat widget removed, account/wishlist
-      disconnected — should already be true if cloned from this repo)
-- [ ] New Vercel project created (name: ___)
+**Repo + hosting** (see `ONBOARDING_WORKFLOW.md` for the full process)
+- [ ] Fresh email obtained from the middle person for this client
+- [ ] New Vercel account created (free tier) with that email — new
+      browser profile + different network, email login, no GitHub connect
+- [ ] Code cloned locally from client1's template (no new GitHub repo)
+- [ ] Deployed via `vercel --prod` CLI
 - [ ] Env vars set on Vercel: NEXT_PUBLIC_SUPABASE_URL,
       NEXT_PUBLIC_SUPABASE_ANON_KEY, ADMIN_EMAIL, TENANT_ID,
       NEXT_PUBLIC_TENANT_ID

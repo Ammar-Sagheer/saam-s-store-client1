@@ -158,16 +158,15 @@ scratchpad files don't persist once a session ends.
 
 ## Per-client setup checklist (for client2, client3, ...)
 
-1. New tenant row: `INSERT INTO tenants (slug, name) VALUES (...)`
-2. New admin row: `INSERT INTO store_admins (email, tenant_id) VALUES (...)`
-3. New repo clone (same pattern as this one) → new Vercel project
-4. Env vars on the new Vercel project:
-   - `NEXT_PUBLIC_SUPABASE_URL` (same shared project as this one)
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (same shared project)
-   - `ADMIN_EMAIL` (this client's admin email)
-   - `TENANT_ID` (server-only, this client's tenant UUID)
-   - `NEXT_PUBLIC_TENANT_ID` (same UUID, public — needed by admin image
-     upload forms which run client-side)
-5. Rebrand: `app/_lib/siteConfig.js`, `app/_styles/globals.css` color
-   tokens, `public/logo.svg` (or replace with a real logo)
-6. Seed categories/products for that tenant (SQL, tenant-scoped)
+**See `ONBOARDING_WORKFLOW.md` for the complete, authoritative process**
+(domain, the new-Vercel-account-per-client model, deployment, handover
+boundaries) — don't follow an abbreviated version reconstructed here,
+it will drift out of sync. Quick summary only:
+
+1. New tenant row + `store_admins` row in the shared Supabase project
+2. New free-tier Vercel account (different email, no GitHub connect) →
+   deploy via `vercel --prod` CLI, no new GitHub repo
+3. Env vars: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   `ADMIN_EMAIL`, `TENANT_ID`, `NEXT_PUBLIC_TENANT_ID`
+4. Rebrand + seed categories/products, tenant-scoped
+5. Update `CLIENTS.md`, reset `CURRENT_BUILD.md`, run a backup
