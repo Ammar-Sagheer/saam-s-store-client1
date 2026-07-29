@@ -23,7 +23,7 @@ export default function ScrollToTop() {
   return (
     <button
       onClick={scrollToTop}
-      className="cursor-pointer fixed bottom-24 right-7 z-50 bg-primary hover:bg-primary-hover text-white p-3 shadow-lg transition-colors animate-bounce-in"
+      className="cursor-pointer fixed bottom-6 right-6 z-50 bg-primary hover:bg-primary-hover text-white p-3 shadow-lg transition-colors animate-bounce-in"
     >
       <ChevronUpIcon className="w-5 h-5" />
     </button>
