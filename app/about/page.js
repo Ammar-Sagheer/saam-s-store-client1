@@ -1,10 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ShieldCheckIcon,
   TruckIcon,
   HeartIcon,
   StarIcon,
 } from "@heroicons/react/24/outline";
+import { getCategoriesWithCount, getHeroSlides } from "@/app/_lib/data-service";
 
 export const metadata = {
   title: "About | Oman and Alam",
@@ -42,7 +44,18 @@ const values = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [categories, heroSlides] = await Promise.all([
+    getCategoriesWithCount(),
+    getHeroSlides(),
+  ]);
+
+  const totalProducts = categories.reduce(
+    (sum, cat) => sum + (cat.products[0]?.count || 0),
+    0,
+  );
+  const aboutImage = heroSlides.find((s) => s.image_url)?.image_url;
+
   return (
     <div className="bg-white min-h-screen">
       {/* Page Header */}
@@ -86,8 +99,17 @@ export default function AboutPage() {
             </Link>
           </div>
 
-          {/* TODO: replace with a real photo once available */}
-          <div className="relative w-full h-80 lg:h-96 rounded-lg bg-gradient-to-br from-dark to-dark-light" />
+          <div className="relative w-full h-80 lg:h-96 rounded-lg overflow-hidden bg-gradient-to-br from-dark to-dark-light">
+            {aboutImage && (
+              <Image
+                src={aboutImage}
+                alt="Our store"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            )}
+          </div>
         </div>
       </div>
 
@@ -128,11 +150,15 @@ export default function AboutPage() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-8 w-full max-w-2xl">
             <div className="flex flex-col items-center gap-2">
-              <span className="text-4xl font-bold text-primary">9+</span>
+              <span className="text-4xl font-bold text-primary">
+                {categories.length}+
+              </span>
               <span className="text-gray-medium text-sm">Categories</span>
             </div>
             <div className="flex flex-col items-center gap-2">
-              <span className="text-4xl font-bold text-primary">100+</span>
+              <span className="text-4xl font-bold text-primary">
+                {totalProducts}+
+              </span>
               <span className="text-gray-medium text-sm">Products</span>
             </div>
             <div className="flex flex-col items-center gap-2">
