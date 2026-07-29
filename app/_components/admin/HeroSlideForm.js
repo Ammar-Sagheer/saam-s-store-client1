@@ -9,6 +9,7 @@ import {
   createHeroSlideAction,
   updateHeroSlideAction,
 } from "@/app/_lib/actions";
+import { compressImage } from "@/app/_lib/compressImage";
 import toast from "react-hot-toast";
 
 export default function HeroSlideForm({ slide }) {
@@ -41,13 +42,20 @@ export default function HeroSlideForm({ slide }) {
     setUploading(true);
     setError("");
 
-    const fileExt = file.name.split(".").pop();
+    let uploadFile = file;
+    try {
+      uploadFile = await compressImage(file, { maxWidth: 1920 });
+    } catch (compressErr) {
+      // Fall back to the original file rather than blocking the upload.
+    }
+
+    const fileExt = uploadFile.type === "image/jpeg" ? "jpg" : file.name.split(".").pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
     const filePath = `${process.env.NEXT_PUBLIC_TENANT_ID}/hero/admin-uploads/${fileName}`;
 
     const { error: uploadError } = await supabaseAuth.storage
       .from("images")
-      .upload(filePath, file);
+      .upload(filePath, uploadFile);
 
     if (uploadError) {
       setError(`Upload failed: ${uploadError.message}`);

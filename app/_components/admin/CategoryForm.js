@@ -6,6 +6,7 @@ import Image from "next/image";
 import { XMarkIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { supabaseAuth } from "@/app/_lib/supabase-auth";
 import { createCategoryAction, updateCategoryAction } from "@/app/_lib/actions";
+import { compressImage } from "@/app/_lib/compressImage";
 import toast from "react-hot-toast";
 
 export default function CategoryForm({ category }) {
@@ -44,13 +45,20 @@ export default function CategoryForm({ category }) {
     setUploading(true);
     setError("");
 
-    const fileExt = file.name.split(".").pop();
+    let uploadFile = file;
+    try {
+      uploadFile = await compressImage(file, { maxWidth: 800 });
+    } catch (compressErr) {
+      // Fall back to the original file rather than blocking the upload.
+    }
+
+    const fileExt = uploadFile.type === "image/jpeg" ? "jpg" : file.name.split(".").pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
     const filePath = `${process.env.NEXT_PUBLIC_TENANT_ID}/categories/admin-uploads/${fileName}`;
 
     const { error: uploadError } = await supabaseAuth.storage
       .from("images")
-      .upload(filePath, file);
+      .upload(filePath, uploadFile);
 
     if (uploadError) {
       setError(`Upload failed: ${uploadError.message}`);
