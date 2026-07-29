@@ -325,7 +325,7 @@ export async function bulkImportProducts(rows) {
   revalidatePath("/admin/products");
   revalidatePath("/admin/categories");
   revalidatePath("/shop");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
 
   return results;
 }
@@ -352,7 +352,7 @@ export async function createCategoryAction(formData, imageUrl) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin/categories");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/shop");
 }
 
@@ -382,7 +382,7 @@ export async function updateCategoryAction(categoryId, formData, imageUrl) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin/categories");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/shop");
 }
 
@@ -398,7 +398,7 @@ export async function deleteCategoryAction(categoryId) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/admin/categories");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/shop");
 }
 

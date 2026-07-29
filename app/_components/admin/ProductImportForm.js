@@ -4,6 +4,7 @@ import { useState } from "react";
 import Papa from "papaparse";
 import { supabaseAuth } from "@/app/_lib/supabase-auth";
 import { bulkImportProducts } from "@/app/_lib/actions";
+import { compressImage } from "@/app/_lib/compressImage";
 import { DocumentArrowUpIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -62,13 +63,20 @@ export default function ProductImportForm() {
                 continue;
               }
 
-              const fileExt = matchedFile.name.split(".").pop();
+              let uploadFile = matchedFile;
+              try {
+                uploadFile = await compressImage(matchedFile, { maxWidth: 1000 });
+              } catch (compressErr) {
+                // Fall back to the original file rather than blocking the upload.
+              }
+
+              const fileExt = uploadFile.type === "image/jpeg" ? "jpg" : matchedFile.name.split(".").pop();
               const uniqueName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
               const filePath = `${process.env.NEXT_PUBLIC_TENANT_ID}/products/bulk-import/${uniqueName}`;
 
               const { error: uploadError } = await supabaseAuth.storage
                 .from("images")
-                .upload(filePath, matchedFile);
+                .upload(filePath, uploadFile);
 
               if (uploadError) {
                 imageUrls.push(null);
